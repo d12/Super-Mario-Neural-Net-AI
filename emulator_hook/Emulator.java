@@ -36,6 +36,10 @@ public class Emulator {
     api.run();
 
     api.addControllersListener(hook::controllerListener);
+    loadLevel();
+  }
+
+  public void loadLevel() {
     api.quickLoadState(LEVEL);
   }
 

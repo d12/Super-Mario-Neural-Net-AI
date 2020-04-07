@@ -3,7 +3,7 @@ require "byebug"
 require "sinatra"
 require "json"
 
-set :logging, false
+set :logging, true
 
 before do
   if request.body.size > 0
@@ -13,8 +13,7 @@ before do
 end
 
 post "/prompt" do
-  sleep(0.05)
-  [6.times.map{|a| ran}.join(",")]
+  [6.times.map{|a| ran}, 0].flatten.join(",")
 end
 
 def ran

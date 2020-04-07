@@ -15,9 +15,14 @@ public class EmulatorHook {
 
   public void controllerListener() {
     String response = networkRequest(PROMPT_PATH, "POST", null);
-    int[] inputs = Arrays.stream(response.split(",")).mapToInt(Integer::parseInt).toArray();
+    int[] response_ints = Arrays.stream(response.split(",")).mapToInt(Integer::parseInt).toArray();
+
+    int[] inputs = Arrays.copyOfRange(response_ints, 0, 6);
     emulator.writeResultToGamepad(inputs);
-    emulator.setSpeed();
+
+    if(response_ints[6] == 1) { // Reset bit is set
+      emulator.loadLevel();
+    }
   }
 
   private static String networkRequest(String address, String requestType, String body) {
