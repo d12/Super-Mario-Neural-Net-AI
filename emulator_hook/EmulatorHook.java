@@ -14,7 +14,7 @@ public class EmulatorHook {
   }
 
   public void controllerListener() {
-    String response = networkRequest(PROMPT_PATH, "POST", null);
+    String response = networkRequest(PROMPT_PATH, "POST", emulator.requestPayload());
     int[] response_ints = Arrays.stream(response.split(",")).mapToInt(Integer::parseInt).toArray();
 
     int[] inputs = Arrays.copyOfRange(response_ints, 0, 6);

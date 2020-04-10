@@ -1,4 +1,5 @@
 import nintaco.api.*;
+import java.util.*;
 
 public class Emulator {
   private final API api;
@@ -28,8 +29,6 @@ public class Emulator {
   // Various memory addresses of different relevant pieces of data in the SMB1 game.
   private final int CPU_MARIO_X_POS = 0x0086;
   private final int CPU_MARIO_X_PAGE = 0x006d;
-  private final int CPU_FREEZE_TIMER = 0x0747;
-  private final int CPU_FRAME_COUNTER = 0x0009;
 
   public Emulator(EmulatorHook hook) {
     api = ApiSource.getAPI();
@@ -72,5 +71,58 @@ public class Emulator {
     api.writeGamepad(CONTROLLER, BUTTON_RIGHT, right);
     api.writeGamepad(CONTROLLER, BUTTON_A, a);
     api.writeGamepad(CONTROLLER, BUTTON_B, b);
+  }
+
+  public String requestPayload() {
+    double[] image = getImage();
+    int xPos = getMarioXPos();
+
+    String imageString = Arrays.toString(image);
+    String xPosString = Integer.toString(xPos);
+
+    return String.format("{\"image\":%s,\"x_position\":%s}", imageString, xPosString);
+  }
+
+  // Get mario's X position
+  private int getMarioXPos() {
+    int page_num = api.readCPU(CPU_MARIO_X_PAGE);
+    int x_index = api.readCPU(CPU_MARIO_X_POS);
+
+    return ((page_num * MARIO_PAGE_SIZE) + x_index);
+  }
+
+  // Return an array of every pixel color on the screen
+  // 61440 pixels total.
+  private double[] getImage() {
+    int[] rawPixels = new int[61440];
+    api.getPixels(rawPixels);
+
+    return processImage(rawPixels);
+  }
+
+  private double[] processImage(int[] image) {
+    double[] croppedArr = new double[10240];
+
+    for(int i = 0; i < 120; i++){
+      for(int j = 0; j < 128; j++){
+        if(i < 40){
+          break; // Trim top 40 pixels off the top
+        }
+
+        int val = image[((i * 256) + j) * 2]; // Grab pixel from array. * 2 because we skip every other pixel, halving the resolution
+        double scaled_val = scaled(val, 1);
+        croppedArr[((i-40)*128) + j] = scaled_val;
+      }
+    }
+
+    return croppedArr;
+  }
+
+  private double scaled(int pixel, int max_val){
+    return(roundedToThreeDecimals((pixel / 64.0) * max_val));
+  }
+
+  private double roundedToThreeDecimals(double num) {
+    return (Math.round(num * 100.0) / 100.0);
   }
 }

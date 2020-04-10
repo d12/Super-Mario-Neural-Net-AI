@@ -1,21 +1,17 @@
-require "simple_neural_network"
-require "byebug"
 require "sinatra"
-require "json"
+require_relative "genetic/ai"
 
-set :logging, true
+set :logging, false
+
+ai = Genetic::AI.new
 
 before do
   if request.body.size > 0
     request.body.rewind
-    @request_payload = JSON.parse(request.body.read)
+    @payload = JSON.parse(request.body.read)
   end
 end
 
 post "/prompt" do
-  [6.times.map{|a| ran}, 0].flatten.join(",")
-end
-
-def ran
-  [0,1].sample
+  ai.query(@payload).join(",")
 end
