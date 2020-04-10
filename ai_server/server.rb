@@ -1,9 +1,13 @@
 require "sinatra"
-require_relative "genetic/ai"
+
+require_relative "network_helper"
+require_relative "ai/genetic_learning/genetic_learning"
+require_relative "ai/single/single"
 
 set :logging, false
 
-ai = Genetic::AI.new
+# ai = Genetic::AI.new
+ai = AI::Single.new("297393060850357012097200129934942449002")
 
 before do
   if request.body.size > 0

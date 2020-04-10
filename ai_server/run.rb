@@ -3,14 +3,12 @@ require "simple_neural_network"
 class Run
   INITIAL_DEATH_TIMER = 100
 
-  attr_accessor :key
-
-  def initialize(network:, key:)
+  def initialize(network:)
     @frame = 0
     @death_timer = INITIAL_DEATH_TIMER
     @dead = false
     @network = network
-    @key = key
+    @key = Random.srand.to_s
   end
 
   def dead?
@@ -39,8 +37,20 @@ class Run
     @x_position
   end
 
+  def key
+    @key
+  end
+
+  def network
+    @network
+  end
+
   def report_score
-    puts "  #{run.key} - #{run.score}"
+    puts "#{key} - #{score}"
+  end
+
+  def inspect
+    "#<Run##{object_id}>"
   end
 
   private
