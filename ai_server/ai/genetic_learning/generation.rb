@@ -1,3 +1,5 @@
+require_relative "../network_helper"
+
 class AI
   class GeneticLearning < Base
     class Generation

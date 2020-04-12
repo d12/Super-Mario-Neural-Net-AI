@@ -1,11 +1,12 @@
 require_relative "../base"
+require_relative "../network_helper"
 
 class AI
-  class Single < Base
+  class Debug < Base
     attr_accessor :run, :network
 
-    def initialize(key)
-      @network = NetworkHelper.load_network(key)
+    def initialize(config)
+      @network = NetworkHelper.load_network(config["key"])
       @run = Run.new(network: @network)
     end
 

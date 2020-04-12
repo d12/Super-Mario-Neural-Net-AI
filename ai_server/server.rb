@@ -1,13 +1,20 @@
 require "sinatra"
+require "json"
 
-require_relative "network_helper"
+require_relative "ai/debug/debug"
 require_relative "ai/genetic_learning/genetic_learning"
-require_relative "ai/single/single"
 
 set :logging, false
 
-# ai = Genetic::AI.new
-ai = AI::Single.new("297393060850357012097200129934942449002")
+available_ais = {
+  genetic: AI::GeneticLearning,
+  debug: AI::Debug
+}
+
+config = JSON.parse(File.read("config/config.json"))
+
+selected_ai_name = config["ai"].to_sym
+ai = available_ais[selected_ai_name].new(config)
 
 before do
   if request.body.size > 0
