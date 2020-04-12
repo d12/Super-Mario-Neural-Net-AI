@@ -1,3 +1,5 @@
+require "simple_neural_network"
+
 class NetworkHelper
   class << self
     SAVES_DIRECTORY = "saves"
@@ -36,6 +38,7 @@ class NetworkHelper
     end
 
     def load_network(key)
+      return unless File.exists?(saves_path(key))
       json = File.read(saves_path(key))
 
       SimpleNeuralNetwork::Network.deserialize(json)
