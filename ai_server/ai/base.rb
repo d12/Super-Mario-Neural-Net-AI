@@ -1,5 +1,7 @@
 require_relative "run"
 
+# An abstract base AI class. Specific AIs subclass the Base and implement missing methods.
+
 class AI
   class Base
     def initialize
