@@ -10,13 +10,25 @@ An SMB1 Neural Net AI written in Ruby, using the Nintaco NES emulator.
 
 `ai_server`/ is a Sinatra server that houses the AI. The emulator hook will send requests to the AI server asking for controller inputs. The AI server calculates inputs and maintains various types of state.
 
-The AI server also houses various training strategies that can be used to compute a neural net that performs optimally. The neural nets take an array of pixel brightnesses as input, and return the controller output. The image passed to the network is heavily compressed and cropped for performance reasons, and looks like this:
+## The AI Server
+
+At it's core, the AI server accepts POST requests with an image of the NES screen and mario's X position, and decides what the output controller state should be. The image passed to the AI is heavily compressed and looks like this:
 
 ![](https://i.imgur.com/EwA6ijI.png)
 
-The network output is an array of 6 bits, each representing whether a specific button on the NES controller should be pressed or not pressed for this frame.
+The AI server has swappable AI strategies that serve different purposess. Each strategy uses Neural networks because I wanted to try applying neural nets, not because they're better than some other AI.
+
+The neural networks have an input node per pixel in the input image, and have 6 outputs, one per button on the controller.
+
+The `debug` strategy runs the game with a specified neural network. When mario dies or gets stuck, it resets and does it again.
+
+The `genetic_learning` strategy implements a [Genetic algorithm](https://en.wikipedia.org/wiki/Genetic_algorithm) to try to discover an optimal neural network to solve the game. When Mario dies, we mutate and breed AIs according to a typical genetic learning algorithm. 
 
 The AI server's response to the emulator hook also includes a 7th bit, a "reset bit" which can be used to inform the emulator that the AI would like to reset the console. This is used in training.
+
+## Saved Networks
+
+When training, we'd want to be able to "save" the good networks to be able to use them or review them later. The NetworkHelper class has methods to serialize and save neural networks to the filessystem, and later deserialize them back to a network. Networks are identified by a random `key` that is assigned on creation.
 
 ## How to run
 
