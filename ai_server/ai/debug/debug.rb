@@ -12,6 +12,10 @@ class AI
 
     private
 
+    def reset?
+      @run.dead?
+    end
+
     def prepare_next_run
       @run = Run.new(network: network)
     end

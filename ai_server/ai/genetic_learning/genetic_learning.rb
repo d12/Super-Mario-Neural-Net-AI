@@ -11,6 +11,10 @@ class AI
 
     private
 
+    def reset?
+      run.dead?
+    end
+
     def run
       @generation.runs[@run_index]
     end
