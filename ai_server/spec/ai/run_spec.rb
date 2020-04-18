@@ -2,9 +2,9 @@ require_relative "../../ai/run"
 require_relative "../../ai/network_helper"
 require "simple_neural_network"
 
-describe Run do
+describe AI::Run do
   let(:network) { NetworkHelper.create_network }
-  let(:run) { Run.new(network: network) }
+  let(:run) { AI::Run.new(network: network) }
 
   describe "#key" do
     it "assigns a random key to the network" do
@@ -15,7 +15,7 @@ describe Run do
   describe "#calculate_controller_output" do
     context "if on a skip frame" do
       it "does not run the network and returns a cached value" do
-        expect_any_instance_of(Run).to receive(:skip_frame?).and_return(true)
+        expect_any_instance_of(AI::Run).to receive(:skip_frame?).and_return(true)
         expect_any_instance_of(SimpleNeuralNetwork::Network).to receive(:run).never
 
         run.calculate_controller_output
@@ -24,7 +24,7 @@ describe Run do
 
     context "if not on a skip frame" do
       it "runs the network" do
-        expect_any_instance_of(Run).to receive(:skip_frame?).and_return(false)
+        expect_any_instance_of(AI::Run).to receive(:skip_frame?).and_return(false)
         expect_any_instance_of(SimpleNeuralNetwork::Network).to receive(:run).once.and_return([0]*6)
 
         run.calculate_controller_output
@@ -37,7 +37,7 @@ describe Run do
       expect(run.dead?).to be_falsey
 
       101.times do
-        run.update(image: [0], x_position: 0)
+        run.update({"image" => [0], "x_position" => 0})
       end
 
       expect(run.dead?).to be_truthy
@@ -47,10 +47,10 @@ describe Run do
       expect(run.dead?).to be_falsey
 
       100.times do
-        run.update(image: [0], x_position: 0)
+        run.update({"image" => [0], "x_position" => 0})
       end
 
-      run.update(image: [0], x_position: 1)
+      run.update({"image" => [0], "x_position" => 1})
 
       expect(run.dead?).to be_falsey
     end

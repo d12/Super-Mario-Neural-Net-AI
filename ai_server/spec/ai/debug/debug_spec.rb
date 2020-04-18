@@ -34,7 +34,7 @@ describe AI::Debug do
 
     it "returns a valid output" do
       controller_output = [1, 0, 1, 0, 1, 0]
-      expect_any_instance_of(Run).to receive(:calculate_controller_output).and_return(controller_output)
+      expect_any_instance_of(AI::Run).to receive(:calculate_controller_output).and_return(controller_output)
 
       output = @debug_ai.query(sample_input)
 
@@ -44,14 +44,14 @@ describe AI::Debug do
 
     context "when mario is dead" do
       it "returns output with enabled reset bit" do
-        expect_any_instance_of(Run).to receive(:dead?).and_return(true)
+        expect_any_instance_of(AI::Run).to receive(:dead?).and_return(true)
 
         output = @debug_ai.query(sample_input)
         expect(output.last).to eq(1)
       end
 
       it "prepares a new run" do
-        expect_any_instance_of(Run).to receive(:dead?).and_return(true)
+        expect_any_instance_of(AI::Run).to receive(:dead?).and_return(true)
         expect(@debug_ai).to receive(:prepare_next_run).once
 
         output = @debug_ai.query(sample_input)
@@ -60,14 +60,14 @@ describe AI::Debug do
 
     context "when mario is alive" do
       it "returns output with disabled reset bit" do
-        expect_any_instance_of(Run).to receive(:dead?).and_return(false)
+        expect_any_instance_of(AI::Run).to receive(:dead?).and_return(false)
 
         output = @debug_ai.query(sample_input)
         expect(output.last).to eq(0)
       end
 
       it "does not prepare a new run" do
-        expect_any_instance_of(Run).to receive(:dead?).and_return(false)
+        expect_any_instance_of(AI::Run).to receive(:dead?).and_return(false)
         expect(@debug_ai).to receive(:prepare_next_run).never
 
         output = @debug_ai.query(sample_input)

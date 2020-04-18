@@ -9,9 +9,10 @@ class AI
     end
 
     def query(payload)
-      run.update(image: payload["image"], x_position: payload["x_position"])
+      run.update(payload)
 
       controller_output = run.calculate_controller_output
+
       reset_bit = reset? ? 1 : 0
 
       if reset_bit == 1
