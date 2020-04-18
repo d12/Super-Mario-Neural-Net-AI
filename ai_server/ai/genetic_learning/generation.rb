@@ -1,4 +1,5 @@
 require_relative "../network_helper"
+require_relative "../base"
 
 class AI
   class GeneticLearning < Base
@@ -8,11 +9,11 @@ class AI
 
       attr_reader :runs
 
-      def initialize(seeds_runs = [])
-        @runs = seeds_runs
+      def initialize(seed_runs = [])
+        @runs = seed_runs.dup
 
         # Mutate seeds
-        seeds_runs.each do |seed_run|
+        seed_runs.each do |seed_run|
           break if @runs.length == GENERATION_SIZE
 
           @runs << Run.new(network: NetworkHelper.mutate_network(seed_run.network))
@@ -50,6 +51,10 @@ class AI
         winners.each do |winner|
           NetworkHelper.save_network(winner.network, winner.key)
         end
+      end
+
+      def generation_size
+        GENERATION_SIZE
       end
     end
   end
