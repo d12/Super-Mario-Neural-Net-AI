@@ -78,7 +78,7 @@ describe NetworkHelper do
         key_path = "saves/#{key}"
 
         allow(File).to receive(:exists?).with(key_path).and_return(false)
-        allow(File).to receive(:save).with(network.serialize).and_return(true)
+        allow(File).to receive(:write).with(key_path, network.serialize).and_return(true)
 
         subject.save_network(network, key)
       end
