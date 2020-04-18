@@ -1,4 +1,3 @@
-# spec/string_calculator_spec.rb
 require_relative "../../ai/base"
 require_relative "../../ai/run"
 
