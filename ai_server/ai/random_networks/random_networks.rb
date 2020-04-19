@@ -20,7 +20,7 @@ class AI
     end
 
     def random_run
-      Run.new(network: NetworkHelper.create_network)
+      Run.new(network: NetworkHelper.create_network(10240, 20, 20, 6)) # TODO: Bring this logic into Run
     end
 
     def reset?

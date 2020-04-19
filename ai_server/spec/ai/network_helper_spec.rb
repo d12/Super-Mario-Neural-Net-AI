@@ -5,21 +5,21 @@ describe NetworkHelper do
 
   describe ".create_network" do
     it "returns a valid 4 layer network" do
-      network = subject.create_network
+      network = subject.create_network(10240, 20, 20, 6)
       expect(network.layers.count).to eq(4)
     end
   end
 
   describe ".mutate_network" do
     it "returns a new mutated network" do
-      original_network = subject.create_network
+      original_network = subject.create_network(10240, 20, 20, 6)
       mutated = subject.mutate_network(original_network)
 
       expect(mutated.serialize).to_not eq(original_network.serialize)
     end
 
     it "does not mutate the original network" do
-      original_network = subject.create_network
+      original_network = subject.create_network(10240, 20, 20, 6)
       original_serialized = original_network.serialize
 
       subject.mutate_network(original_network)
@@ -40,7 +40,7 @@ describe NetworkHelper do
 
     describe "when the save exists" do
       it "loads the correct network" do
-        network = subject.create_network
+        network = subject.create_network(10240, 20, 20, 6)
         serialized_network = network.serialize
 
         key = "key"
@@ -71,7 +71,7 @@ describe NetworkHelper do
 
     describe "when the does not exist" do
       it "saves the network" do
-        network = subject.create_network
+        network = subject.create_network(10240, 20, 20, 6)
 
         key = "key"
         key_path = "saves/#{key}"

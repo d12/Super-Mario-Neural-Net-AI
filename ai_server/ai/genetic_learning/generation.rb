@@ -21,7 +21,7 @@ class AI
 
         # If there's more capacity, create random networks
         while @runs.length < GENERATION_SIZE
-          @runs << Run.new(network: NetworkHelper.create_network)
+          @runs << Run.new(network: NetworkHelper.create_network(10240, 20, 20, 6))
         end
       end
 

@@ -4,13 +4,12 @@ class NetworkHelper
   class << self
     SAVES_DIRECTORY = "saves"
 
-    def create_network
+    def create_network(*layers)
       network = SimpleNeuralNetwork::Network.new
 
-      network.create_layer(neurons: 10240)
-      network.create_layer(neurons: 20)
-      network.create_layer(neurons: 20)
-      network.create_layer(neurons: 6) # 4 directions, a, b
+      layers.each do |neuron_count|
+        network.create_layer(neurons: neuron_count)
+      end
 
       network
     end
