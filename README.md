@@ -42,6 +42,10 @@ Debug is a simple strategy to manually see a specific network play Mario. The de
 
 Literally just random controller inputs. This strategy doesn't reset when Mario dies. Just random button mashing, all day.
 
+#### Random Networks
+
+Creates random neural nets and sees how far they get. The best ones are saved.
+
 ## Saved Networks
 
 When training, we'd want to be able to "save" the good networks to be able to use them or review them later. The `NetworkHelper` class has methods to serialize and save neural networks to the file system, and later deserialize them back to a network. Networks are identified by a random `key` that is assigned on creation.
