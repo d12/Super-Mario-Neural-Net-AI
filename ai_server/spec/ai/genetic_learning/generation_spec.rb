@@ -4,6 +4,7 @@ require_relative "../../../ai/run"
 
 describe AI::GeneticLearning::Generation do
   let(:generation_size) { subject.generation_size }
+
   describe "#initialize" do
     context "when no seed runs are given" do
       it "creates the correct number of runs" do
@@ -48,6 +49,7 @@ describe AI::GeneticLearning::Generation do
 
     context "when more than half of the max seed runs are provided" do
       let(:new_runs_count) { (generation_size / 2) + 1 }
+
       it "creates no runs" do
         seed_runs = new_runs_count.times.map do |n|
           AI::Run.new(network: NetworkHelper.create_network(10240, 20, 20, 6))
