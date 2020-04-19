@@ -3,7 +3,7 @@ require_relative "../../../ai/network_helper"
 require_relative "../../../ai/run"
 
 describe AI::Debug do
-  let(:network) { NetworkHelper.create_network(10240, 20, 20, 6) } # TODO: bring this number down to make tests faster
+  let(:network) { NetworkHelper.create_network(10, 20, 20, 6) } # TODO: bring this number down to make tests faster
   let(:key) { Random.srand.to_s }
   let(:key_path) { "saves/#{key}" }
 
@@ -26,7 +26,7 @@ describe AI::Debug do
 
     let :sample_input do
       {
-        "image" => [0] * 10240,
+        "image" => [0] * 10,
         "x_position" => 0
       }
     end

@@ -3,7 +3,7 @@ require_relative "../../ai/network_helper"
 require "simple_neural_network"
 
 describe AI::Run do
-  let(:network) { NetworkHelper.create_network(10240, 20, 20, 6) }
+  let(:network) { NetworkHelper.create_network(20, 30) }
   let(:run) { AI::Run.new(network: network) }
 
   describe "#key" do
