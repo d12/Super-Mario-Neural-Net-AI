@@ -3,12 +3,14 @@ require "json"
 
 require_relative "ai/debug/debug"
 require_relative "ai/genetic_learning/genetic_learning"
+require_relative "ai/random_inputs/random_inputs"
 
 set :logging, false
 
 available_ais = {
   genetic: AI::GeneticLearning,
-  debug: AI::Debug
+  debug: AI::Debug,
+  random_inputs: AI::RandomInputs
 }
 
 config = JSON.parse(File.read("config/config.json"))
