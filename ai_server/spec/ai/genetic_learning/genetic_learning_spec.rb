@@ -8,7 +8,7 @@ describe AI::GeneticLearning do
 
   describe "#query" do
     context "when mario is not dead" do
-      let!(:strategy) { AI::GeneticLearning.new }
+      let!(:strategy) { AI::GeneticLearning.new(nil) }
 
       before do
         allow_any_instance_of(AI::Run).to receive(:dead?).and_return(false)
@@ -42,7 +42,7 @@ describe AI::GeneticLearning do
 
     context "when mario has died once" do
       before do
-        @strategy = AI::GeneticLearning.new
+        @strategy = AI::GeneticLearning.new(nil)
         @gen = @strategy.instance_variable_get(:@generation)
         @runs = @gen.runs
 
@@ -63,7 +63,7 @@ describe AI::GeneticLearning do
 
     context "when mario has died ten times" do
       before do
-        @strategy = AI::GeneticLearning.new
+        @strategy = AI::GeneticLearning.new(nil)
         @gen = @strategy.instance_variable_get(:@generation)
         @runs = @gen.runs
 
@@ -89,7 +89,7 @@ describe AI::GeneticLearning do
 
       it "will save runs" do
         expect(@gen).to receive(:save_winners)
-        
+
         @strategy.query(payload)
       end
     end

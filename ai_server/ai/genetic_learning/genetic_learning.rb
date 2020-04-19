@@ -3,7 +3,7 @@ require_relative "generation"
 
 class AI
   class GeneticLearning < Base
-    def initialize #TODO: Take seed keys as a config option
+    def initialize(_config)
       @generation = Generation.new
       @run_index = 0
       @generation_index = 0
