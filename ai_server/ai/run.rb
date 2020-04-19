@@ -3,12 +3,19 @@ class AI
   class Run
     INITIAL_DEATH_TIMER = 100
 
-    def initialize(network:)
+    def initialize(network: nil, dimensions: [], key: nil)
       @frame = 0
       @death_timer = INITIAL_DEATH_TIMER
       @dead = false
-      @network = network
-      @key = Random.srand.to_s
+      @key = key || Random.srand.to_s # TODO: Stop using srand, it's not a random number generator lol
+
+      @network = if network
+        network
+      elsif dimensions
+        NetworkHelper.create_network(*dimensions)
+      else
+        NetworkHelper.create_network(10240, 20, 20, 6)
+      end
     end
 
     def dead?

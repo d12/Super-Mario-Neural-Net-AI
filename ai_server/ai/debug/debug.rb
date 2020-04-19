@@ -6,8 +6,9 @@ class AI
     attr_accessor :run, :network
 
     def initialize(config)
-      @network = NetworkHelper.load_network(config["key"])
-      @run = Run.new(network: @network)
+      @key = config["key"]
+      @network = NetworkHelper.load_network(@key)
+      @run = Run.new(network: @network, key: @key)
     end
 
     private
@@ -17,7 +18,7 @@ class AI
     end
 
     def prepare_next_run
-      @run = Run.new(network: network)
+      @run = Run.new(network: network, key: @key)
     end
   end
 end

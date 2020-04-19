@@ -25,7 +25,7 @@ describe AI::GeneticLearning::Generation do
         new_runs_count = (generation_size / 2) - 1
 
         seed_runs = new_runs_count.times.map do |n|
-          AI::Run.new(network: NetworkHelper.create_network(10240, 20, 20, 6))
+          AI::Run.new(dimensions: [10240, 20, 20, 6])
         end
 
         runs_expected_to_be_created = generation_size - (2 * new_runs_count)
@@ -38,7 +38,7 @@ describe AI::GeneticLearning::Generation do
         new_runs_count = (generation_size / 2) - 1
 
         seed_runs = new_runs_count.times.map do |n|
-          AI::Run.new(network: NetworkHelper.create_network(10240, 20, 20, 6))
+          AI::Run.new(dimensions: [10240, 20, 20, 6])
         end
 
         expect(NetworkHelper).to receive(:mutate_network).exactly(new_runs_count).times
@@ -52,7 +52,7 @@ describe AI::GeneticLearning::Generation do
 
       it "creates no runs" do
         seed_runs = new_runs_count.times.map do |n|
-          AI::Run.new(network: NetworkHelper.create_network(10240, 20, 20, 6))
+          AI::Run.new(dimensions: [10240, 20, 20, 6])
         end
 
         expect(NetworkHelper).to receive(:create_network).never
@@ -62,7 +62,7 @@ describe AI::GeneticLearning::Generation do
 
       it "mutates enough runs to fill the generation_size, but not all" do
         seed_runs = new_runs_count.times.map do |n|
-          AI::Run.new(network: NetworkHelper.create_network(10240, 20, 20, 6))
+          AI::Run.new(dimensions: [10240, 20, 20, 6])
         end
 
         expected_mutations = generation_size - new_runs_count
@@ -78,7 +78,7 @@ describe AI::GeneticLearning::Generation do
       @runs = []
 
       (1..10).each do |i|
-        run = AI::Run.new(network: nil)
+        run = AI::Run.new
         allow(run).to receive(:score).and_return(i)
 
         @runs << run
@@ -99,7 +99,7 @@ describe AI::GeneticLearning::Generation do
       @runs = []
 
       (1..10).each do |i|
-        run = AI::Run.new(network: nil)
+        run = AI::Run.new
         allow(run).to receive(:score).and_return(i)
 
         @runs << run
