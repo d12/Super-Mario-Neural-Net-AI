@@ -53,7 +53,7 @@ class AI
     end
 
     def report_score
-      puts "#{key} - #{score}"
+      puts "** #{key} - #{score}"
     end
 
     def inspect

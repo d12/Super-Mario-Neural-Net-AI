@@ -28,7 +28,7 @@ class AI
     end
 
     def prepare_next_run
-      puts "Run #{@run_index}"
+      puts "** Run #{@run_index}"
       @run.report_score
 
       @run_index += 1
@@ -37,14 +37,14 @@ class AI
         @best_run[:key] = @run.key
         @best_run[:score] = @run.score
 
-        puts "Saving network..."
+        puts "** Saving network..."
         NetworkHelper.save_network(@run.network, @run.key)
       end
 
       @run = random_run
 
-      puts "Best: #{@best_run[:key]} (#{@best_run[:score]})"
-      puts
+      puts "** Best: #{@best_run[:key]} (#{@best_run[:score]})"
+      puts "**"
     end
   end
 end

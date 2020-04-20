@@ -36,15 +36,15 @@ class AI
       end
 
       def announce_winners(index)
-        puts
+        puts "**"
 
-        puts "Generation #{index} winners:"
+        puts "** Generation #{index} winners:"
         winners.each_with_index do |winner, index|
-          puts "#{index + 1}. #{winner.key} - #{winner.score}"
+          puts "** #{index + 1}. #{winner.key} - #{winner.score}"
         end
 
-        puts
-        puts
+        puts "**"
+        puts "**"
       end
 
       def save_winners
