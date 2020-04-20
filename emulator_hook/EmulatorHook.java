@@ -14,6 +14,7 @@ public class EmulatorHook {
   }
 
   public void controllerListener() {
+    emulator.setSpeed();
     String response = networkRequest(PROMPT_PATH, "POST", emulator.requestPayload());
     int[] response_ints = Arrays.stream(response.split(",")).mapToInt(Integer::parseInt).toArray();
 
