@@ -1,6 +1,8 @@
 # Gemfile
 source "https://rubygems.org"
 
-gem "simple_neural_network", "0.0.1"
+gem "simple_neural_network", "0.1.0"
 gem "rspec", "~> 3.9.0"
 gem "sinatra", "~> 2.0.8"
+
+gem "byebug"
