@@ -27,6 +27,7 @@ class NetworkHelper
         end
       end
 
+      duped_network.clear_edge_caches
       duped_network
     end
 
