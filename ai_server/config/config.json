@@ -1,3 +1,4 @@
 {
-  "ai": "random_networks"
+  "ai": "genetic",
+  "logging_level": "info"
 }

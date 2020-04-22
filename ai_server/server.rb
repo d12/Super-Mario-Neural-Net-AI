@@ -19,7 +19,7 @@ available_ais = {
 config = JSON.parse(File.read("config/config.json"))
 
 logger = Logger.new(STDOUT)
-logger.level = Logger::INFO
+logger.level = config.delete("logging_level").to_sym
 
 selected_ai_name = config["ai"].to_sym
 ai = available_ais[selected_ai_name].new(config, logger: logger)
@@ -32,5 +32,5 @@ before do
 end
 
 post "/prompt" do
-  ai.query(@payload, logger: logger).join(",")
+  ai.query(@payload).join(",")
 end
