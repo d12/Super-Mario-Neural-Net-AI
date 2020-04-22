@@ -24,8 +24,6 @@ logger.level = Logger::INFO
 selected_ai_name = config["ai"].to_sym
 ai = available_ais[selected_ai_name].new(config, logger: logger)
 
-
-
 before do
   if request.body.size > 0
     request.body.rewind
