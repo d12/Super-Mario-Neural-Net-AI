@@ -26,7 +26,7 @@ class AI
       if skip_frame?
         @last_output
       else
-        @last_output = @network.run(@image).map(&:round)
+        @last_output = @network.run(@image, skip_validation: true).map(&:round)
       end
     end
 
@@ -50,10 +50,6 @@ class AI
 
     def network
       @network
-    end
-
-    def report_score
-      puts "#{key} - #{score}"
     end
 
     def inspect

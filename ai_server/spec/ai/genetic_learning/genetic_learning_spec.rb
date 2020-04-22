@@ -3,22 +3,22 @@ require_relative "../../../ai/genetic_learning/generation"
 require_relative "../../../ai/network_helper"
 require_relative "../../../ai/run"
 
+require "logger"
+
 describe AI::GeneticLearning do
   let(:payload) { {"image" => [0] * 10240, "x_position" => 15} }
+  let(:logger) { Logger.new(STDOUT) }
+
+  before do
+    logger.level = Logger::ERROR
+  end
 
   describe "#query" do
     context "when mario is not dead" do
-      let!(:strategy) { AI::GeneticLearning.new(nil) }
+      let!(:strategy) { AI::GeneticLearning.new(nil, logger: logger) }
 
       before do
         allow_any_instance_of(AI::Run).to receive(:dead?).and_return(false)
-      end
-
-      it "does not report scores" do
-        expect_any_instance_of(AI::Run).to receive(:report_score).never
-        expect_any_instance_of(AI::GeneticLearning::Generation).to receive(:announce_winners).never
-
-        strategy.query(payload)
       end
 
       it "does not create a new generation" do
@@ -42,17 +42,11 @@ describe AI::GeneticLearning do
 
     context "when mario has died once" do
       before do
-        @strategy = AI::GeneticLearning.new(nil)
+        @strategy = AI::GeneticLearning.new(nil, logger: logger)
         @gen = @strategy.instance_variable_get(:@generation)
         @runs = @gen.runs
 
         allow(@runs.first).to receive(:dead?).and_return(true)
-      end
-
-      it "reports the run score" do
-        expect_any_instance_of(AI::Run).to receive(:report_score).once
-
-        @strategy.query(payload)
       end
 
       it "updates the current run" do
@@ -63,7 +57,7 @@ describe AI::GeneticLearning do
 
     context "when mario has died ten times" do
       before do
-        @strategy = AI::GeneticLearning.new(nil)
+        @strategy = AI::GeneticLearning.new(nil, logger: logger)
         @gen = @strategy.instance_variable_get(:@generation)
         @runs = @gen.runs
 
@@ -76,7 +70,7 @@ describe AI::GeneticLearning do
       end
 
       it "will create a new generation with the correct winners" do
-        expect(AI::GeneticLearning::Generation).to receive(:new).with(@runs.reverse.first(3)).and_call_original
+        expect(AI::GeneticLearning::Generation).to receive(:new).with(@runs.reverse.first(3), logger: logger).and_call_original
 
         @strategy.query(payload)
       end

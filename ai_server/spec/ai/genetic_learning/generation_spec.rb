@@ -2,21 +2,31 @@ require_relative "../../../ai/genetic_learning/generation"
 require_relative "../../../ai/network_helper"
 require_relative "../../../ai/run"
 
+require "logger"
+
 describe AI::GeneticLearning::Generation do
+  let(:logger) { Logger.new(STDOUT) }
+
+  subject { AI::GeneticLearning::Generation.new(logger: logger) }
+
   let(:generation_size) { subject.generation_size }
+
+  before do
+    logger.level = Logger::ERROR
+  end
 
   describe "#initialize" do
     context "when no seed runs are given" do
       it "creates the correct number of runs" do
         expect(NetworkHelper).to receive(:create_network).exactly(10).times
 
-        AI::GeneticLearning::Generation.new
+        AI::GeneticLearning::Generation.new(logger: logger)
       end
 
       it "does not mutate any new networks" do
         expect(NetworkHelper).to receive(:mutate_network).never
 
-        AI::GeneticLearning::Generation.new
+        AI::GeneticLearning::Generation.new(logger: logger)
       end
     end
 
@@ -31,7 +41,7 @@ describe AI::GeneticLearning::Generation do
         runs_expected_to_be_created = generation_size - (2 * new_runs_count)
         expect(NetworkHelper).to receive(:create_network).exactly(runs_expected_to_be_created).times
 
-        AI::GeneticLearning::Generation.new(seed_runs)
+        AI::GeneticLearning::Generation.new(seed_runs, logger: logger)
       end
 
       it "mutates all runs provided" do
@@ -43,7 +53,7 @@ describe AI::GeneticLearning::Generation do
 
         expect(NetworkHelper).to receive(:mutate_network).exactly(new_runs_count).times
 
-        AI::GeneticLearning::Generation.new(seed_runs)
+        AI::GeneticLearning::Generation.new(seed_runs, logger: logger)
       end
     end
 
@@ -57,7 +67,7 @@ describe AI::GeneticLearning::Generation do
 
         expect(NetworkHelper).to receive(:create_network).never
 
-        AI::GeneticLearning::Generation.new(seed_runs)
+        AI::GeneticLearning::Generation.new(seed_runs, logger: logger)
       end
 
       it "mutates enough runs to fill the generation_size, but not all" do
@@ -68,7 +78,7 @@ describe AI::GeneticLearning::Generation do
         expected_mutations = generation_size - new_runs_count
         expect(NetworkHelper).to receive(:mutate_network).exactly(expected_mutations).times
 
-        AI::GeneticLearning::Generation.new(seed_runs)
+        AI::GeneticLearning::Generation.new(seed_runs, logger: logger)
       end
     end
   end
@@ -84,7 +94,7 @@ describe AI::GeneticLearning::Generation do
         @runs << run
       end
 
-      @generation = AI::GeneticLearning::Generation.new(@runs)
+      @generation = AI::GeneticLearning::Generation.new(@runs, logger: logger)
     end
 
     it "returns the correct winners in the correct order" do
@@ -105,7 +115,7 @@ describe AI::GeneticLearning::Generation do
         @runs << run
       end
 
-      @generation = AI::GeneticLearning::Generation.new(@runs)
+      @generation = AI::GeneticLearning::Generation.new(@runs, logger: logger)
     end
 
     it "saves all winners" do

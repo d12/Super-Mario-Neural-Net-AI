@@ -1,7 +1,10 @@
 require_relative "../../../ai/random_inputs/random_inputs"
 
+require "logger"
+
 describe AI::RandomInputs do
-  subject { AI::RandomInputs.new(nil) }
+  let(:logger) { Logger.new(STDOUT) }
+  subject { AI::RandomInputs.new(nil, logger: logger) }
 
   before do
     # Seed the randomness so we always get the same random outputs

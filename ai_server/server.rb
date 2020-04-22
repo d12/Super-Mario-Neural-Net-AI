@@ -1,5 +1,6 @@
 require "sinatra"
 require "json"
+require "logger"
 
 require_relative "ai/debug/debug"
 require_relative "ai/genetic_learning/genetic_learning"
@@ -17,8 +18,13 @@ available_ais = {
 
 config = JSON.parse(File.read("config/config.json"))
 
+logger = Logger.new(STDOUT)
+logger.level = Logger::INFO
+
 selected_ai_name = config["ai"].to_sym
-ai = available_ais[selected_ai_name].new(config)
+ai = available_ais[selected_ai_name].new(config, logger: logger)
+
+
 
 before do
   if request.body.size > 0
@@ -28,5 +34,5 @@ before do
 end
 
 post "/prompt" do
-  ai.query(@payload).join(",")
+  ai.query(@payload, logger: logger).join(",")
 end

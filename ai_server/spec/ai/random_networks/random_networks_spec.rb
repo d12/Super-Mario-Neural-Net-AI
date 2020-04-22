@@ -1,8 +1,13 @@
 require_relative "../../../ai/random_networks/random_networks"
 
+require "logger"
+
 describe AI::RandomNetworks do
+  let(:logger) { Logger.new(STDOUT) }
+
   before do
-    @strategy = AI::RandomNetworks.new(nil)
+    logger.level = Logger::ERROR
+    @strategy = AI::RandomNetworks.new(nil, logger: logger)
   end
 
   let(:sample_payload) { {"image" => [0] * 10240, "x_position" => 0} }
