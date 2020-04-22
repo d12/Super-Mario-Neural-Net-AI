@@ -52,10 +52,6 @@ class AI
       @network
     end
 
-    def report_score
-      puts "** #{key} - #{score}"
-    end
-
     def inspect
       "#<Run##{object_id}>"
     end

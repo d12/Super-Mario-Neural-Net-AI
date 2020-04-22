@@ -3,7 +3,7 @@ require_relative "../network_helper"
 
 class AI
   class RandomNetworks < Base
-    def initialize(_config)
+    def initialize(_config, logger:)
       @run_index = 0
       @run = random_run
 
@@ -11,12 +11,18 @@ class AI
         key: nil,
         score: 0
       }
+
+      @logger = logger
     end
 
     private
 
     def run
       @run
+    end
+
+    def logger
+      @logger
     end
 
     def random_run
@@ -28,8 +34,8 @@ class AI
     end
 
     def prepare_next_run
-      puts "** Run #{@run_index}"
-      @run.report_score
+      logger.info "** Run #{@run_index}"
+      logger.info "** #{@run.key} - #{@run.score}"
 
       @run_index += 1
 
@@ -37,14 +43,14 @@ class AI
         @best_run[:key] = @run.key
         @best_run[:score] = @run.score
 
-        puts "** Saving network..."
+        logger.info "** Saving network..."
         NetworkHelper.save_network(@run.network, @run.key)
       end
 
       @run = random_run
 
-      puts "** Best: #{@best_run[:key]} (#{@best_run[:score]})"
-      puts "**"
+      logger.info "** Best: #{@best_run[:key]} (#{@best_run[:score]})"
+      logger.info "**"
     end
   end
 end

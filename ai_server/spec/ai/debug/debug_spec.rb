@@ -2,17 +2,24 @@ require_relative "../../../ai/debug/debug"
 require_relative "../../../ai/network_helper"
 require_relative "../../../ai/run"
 
+require "logger"
+
 describe AI::Debug do
   let(:network) { NetworkHelper.create_network(10, 20, 20, 6) } # TODO: bring this number down to make tests faster
   let(:key) { Random.srand.to_s }
   let(:key_path) { "saves/#{key}" }
+  let(:logger) { Logger.new(STDOUT) }
+
+  before do
+    logger.level = Logger::ERROR
+  end
 
   describe "#initialize" do
     it "reads from the correct save file" do
       expect(File).to receive(:exists?).with(key_path).and_return(true)
       expect(File).to receive(:read).with(key_path).and_return(network.serialize)
 
-      debug_ai = AI::Debug.new({"key" => key})
+      debug_ai = AI::Debug.new({"key" => key}, logger: logger)
     end
   end
 
@@ -21,7 +28,7 @@ describe AI::Debug do
       expect(File).to receive(:exists?).with(key_path).and_return(true)
       expect(File).to receive(:read).with(key_path).and_return(network.serialize)
 
-      @debug_ai = AI::Debug.new({"key" => key})
+      @debug_ai = AI::Debug.new({"key" => key}, logger: logger)
     end
 
     let :sample_input do

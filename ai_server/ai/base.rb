@@ -34,6 +34,10 @@ class AI
       raise NotImplementedError, "Subclasses must implement #run"
     end
 
+    def logger
+      raise NotImplementedError, "Subclasses must implement #logger"
+    end
+
     # Called when the console is reset.
     # Performs any necessary logic needed to start a new run.
     def prepare_next_run

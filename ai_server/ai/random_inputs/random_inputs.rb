@@ -4,7 +4,7 @@ class AI
   class RandomInputs < Base
     attr_accessor :run, :network
 
-    def initialize(_config)
+    def initialize(_config, logger:)
     end
 
     def query(_payload)

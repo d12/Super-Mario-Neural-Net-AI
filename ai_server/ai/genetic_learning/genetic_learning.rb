@@ -3,13 +3,18 @@ require_relative "generation"
 
 class AI
   class GeneticLearning < Base
-    def initialize(_config)
-      @generation = Generation.new
+    def initialize(_config, logger:)
+      @generation = Generation.new(logger: logger)
       @run_index = 0
       @generation_index = 0
+      @logger = logger
     end
 
     private
+
+    def logger
+      @logger
+    end
 
     def reset?
       run.dead?
@@ -20,7 +25,7 @@ class AI
     end
 
     def prepare_next_run
-      run.report_score
+      logger.info "** #{run.key} - #{run.score}"
 
       @run_index += 1
 
@@ -37,7 +42,7 @@ class AI
 
       @generation_index += 1
       @run_index = 0
-      @generation = Generation.new(@generation.winners)
+      @generation = Generation.new(@generation.winners, logger: @logger)
 
       prepare_next_run if run.dead?
     end

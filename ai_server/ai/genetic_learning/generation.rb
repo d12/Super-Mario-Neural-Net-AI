@@ -9,7 +9,8 @@ class AI
 
       attr_reader :runs
 
-      def initialize(seed_runs = [])
+      def initialize(seed_runs = [], logger:)
+        @logger = logger
         @runs = seed_runs.dup
 
         # Mutate seeds
@@ -36,15 +37,15 @@ class AI
       end
 
       def announce_winners(index)
-        puts "**"
+        @logger.info "**"
 
-        puts "** Generation #{index} winners:"
+        @logger.info  "** Generation #{index} winners:"
         winners.each_with_index do |winner, index|
-          puts "** #{index + 1}. #{winner.key} - #{winner.score}"
+          @logger.info "** #{index + 1}. #{winner.key} - #{winner.score}"
         end
 
-        puts "**"
-        puts "**"
+        @logger.info "**"
+        @logger.info "**"
       end
 
       def save_winners
