@@ -1,16 +1,26 @@
 require_relative "../base"
+require_relative "../network_helper"
 require_relative "generation"
 
 class AI
   class GeneticLearning < Base
-    def initialize(_config, logger:)
-      @generation = Generation.new(logger: logger)
+    def initialize(config, logger:)
+      seed_run_keys = config["seed_run_keys"] || []
+      seed_runs = load_seed_runs(seed_run_keys)
+
+      @generation = Generation.new(seed_runs, logger: logger)
       @run_index = 0
       @generation_index = 0
       @logger = logger
     end
 
     private
+
+    def load_seed_runs(seed_run_keys)
+      seed_run_keys.map do |key|
+        Run.new(network: NetworkHelper.load_network(key))
+      end
+    end
 
     def logger
       @logger

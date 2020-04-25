@@ -15,7 +15,7 @@ describe AI::GeneticLearning do
 
   describe "#query" do
     context "when mario is not dead" do
-      let!(:strategy) { AI::GeneticLearning.new(nil, logger: logger) }
+      let!(:strategy) { AI::GeneticLearning.new({}, logger: logger) }
 
       before do
         allow_any_instance_of(AI::Run).to receive(:dead?).and_return(false)
@@ -42,7 +42,7 @@ describe AI::GeneticLearning do
 
     context "when mario has died once" do
       before do
-        @strategy = AI::GeneticLearning.new(nil, logger: logger)
+        @strategy = AI::GeneticLearning.new({}, logger: logger)
         @gen = @strategy.instance_variable_get(:@generation)
         @runs = @gen.runs
 
@@ -57,7 +57,7 @@ describe AI::GeneticLearning do
 
     context "when mario has died ten times" do
       before do
-        @strategy = AI::GeneticLearning.new(nil, logger: logger)
+        @strategy = AI::GeneticLearning.new({}, logger: logger)
         @gen = @strategy.instance_variable_get(:@generation)
         @runs = @gen.runs
 
