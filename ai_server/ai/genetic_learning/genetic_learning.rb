@@ -5,7 +5,7 @@ require_relative "generation"
 class AI
   class GeneticLearning < Base
     def initialize(config, logger:)
-      seed_run_keys = config["seed_run_keys"] || []
+      seed_run_keys = config[:seed_run_keys] || []
       seed_runs = load_seed_runs(seed_run_keys)
 
       @generation = Generation.new(seed_runs, logger: logger)

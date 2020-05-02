@@ -24,6 +24,11 @@ class AI
 
     private
 
+    # NOTE:
+    #
+    # If you don't use the above #query method, the methods below don't
+    # need to be implemented.
+
     # If true, the console will be reset on the next frame.
     def reset?
       raise NotImplementedError, "Subclasses must implement #reset"
