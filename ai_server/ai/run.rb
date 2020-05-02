@@ -26,7 +26,7 @@ class AI
       if skip_frame?
         @last_output
       else
-        @last_output = @network.run(@image, skip_validation: true).map(&:round)
+        @last_output = [*@network.run(@image, skip_validation: true).map(&:round), 0, 0]
       end
     end
 

@@ -18,10 +18,10 @@ public class EmulatorHook {
     String response = networkRequest(PROMPT_PATH, "POST", emulator.requestPayload());
     int[] response_ints = Arrays.stream(response.split(",")).mapToInt(Integer::parseInt).toArray();
 
-    int[] inputs = Arrays.copyOfRange(response_ints, 0, 6);
+    int[] inputs = Arrays.copyOfRange(response_ints, 0, 8);
     emulator.writeResultToGamepad(inputs);
 
-    if(response_ints[6] == 1) { // Reset bit is set
+    if(response_ints[8] == 1) { // Reset bit is set
       emulator.loadLevel();
     }
   }

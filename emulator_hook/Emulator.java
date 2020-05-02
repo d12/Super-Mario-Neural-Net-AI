@@ -23,6 +23,8 @@ public class Emulator {
   private final int BUTTON_DOWN = 5;
   private final int BUTTON_LEFT = 6;
   private final int BUTTON_RIGHT = 7;
+  private final int BUTTON_START = 3;
+  private final int BUTTON_SELECT = 2;
 
   private final int CONTROLLER = 0;
 
@@ -53,17 +55,8 @@ public class Emulator {
     boolean right = result[3] == 1;
     boolean a = result[4] == 1;
     boolean b = result[5] == 1;
-
-    // On a standard NES controller, you cannot press up + down or left + right
-    // without breaking your controller. Ensure our AI doesn't do this.
-
-    if(left && right){
-      left = false;
-    }
-
-    if(up && down){
-      down = false;
-    }
+    boolean start = result[6] == 1;
+    boolean select = result[7] == 1;
 
     api.writeGamepad(CONTROLLER, BUTTON_UP, up);
     api.writeGamepad(CONTROLLER, BUTTON_DOWN, down);
@@ -71,6 +64,8 @@ public class Emulator {
     api.writeGamepad(CONTROLLER, BUTTON_RIGHT, right);
     api.writeGamepad(CONTROLLER, BUTTON_A, a);
     api.writeGamepad(CONTROLLER, BUTTON_B, b);
+    api.writeGamepad(CONTROLLER, BUTTON_START, start);
+    api.writeGamepad(CONTROLLER, BUTTON_SELECT, select);
   }
 
   public String requestPayload() {
