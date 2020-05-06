@@ -1,3 +1,4 @@
 emulator_hook/build/
 ai_server/.byebug_history
 ai_server/saves/
+ai_server/training_data/

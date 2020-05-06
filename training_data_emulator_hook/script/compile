@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd "$(dirname "${BASH_SOURCE[0]}")" ; cd .. # Set pwd to project root
+
+rm -f build/EmulatorHook.jar
+
+javac -cp Nintaco.jar:. *.java
+jar -cf build/EmulatorHook.jar *.class
+
+rm -f *.class
+
+echo "Successfuly compiled."

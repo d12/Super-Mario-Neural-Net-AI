@@ -30,7 +30,7 @@ describe AI::GeneticLearning do
       it "returns valid controller outputs" do
         *outputs, _reset_bit = strategy.query(payload)
 
-        expect(outputs.length).to eq(6)
+        expect(outputs.length).to eq(8)
         expect(outputs.all?{|output| output == 0 || output == 1}).to be_truthy
       end
 
