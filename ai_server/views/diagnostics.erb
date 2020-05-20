@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <script src="chart.js"></script>
+    <script src="chartkick.js"></script>
+    <script>
+      setTimeout(function() {
+        location.reload();
+      }, 5000);
+    </script>
+  </head>
+  <%= line_chart @stats, min: @stats.first[1], xtitle: "Generation", ytitle: "Fitness", discrete: true, curve: false %>
+</html>

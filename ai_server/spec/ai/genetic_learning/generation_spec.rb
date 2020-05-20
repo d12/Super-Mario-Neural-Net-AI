@@ -87,8 +87,9 @@ describe AI::GeneticLearning::Generation do
     before do
       @runs = []
 
-      (1..10).each do |i|
-        run = AI::Run.new
+      scores = [1, 2, 3, 8, 8, 9, 9, 10, 10, 10]
+      scores.each_with_index do |i, index|
+        run = AI::Run.new(age: index)
         allow(run).to receive(:score).and_return(i)
 
         @runs << run
@@ -98,7 +99,7 @@ describe AI::GeneticLearning::Generation do
     end
 
     it "returns the correct winners in the correct order" do
-      expected_winners = @runs.last(3).reverse
+      expected_winners = [@runs[9], @runs[6], @runs[4]]
 
       expect(@generation.winners).to eq(expected_winners)
     end

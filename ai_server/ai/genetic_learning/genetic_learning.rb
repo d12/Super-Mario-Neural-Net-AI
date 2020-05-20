@@ -12,6 +12,21 @@ class AI
       @run_index = 0
       @generation_index = 0
       @logger = logger
+      @history = []
+    end
+
+    # Returns an array of arrays
+    # [[a, b], [a, b]]
+    # a = the generation number
+    # b = the highest score for that gen
+    def stats
+      @history.each_with_index.map do |score, i|
+        [i + 1, score]
+      end
+    end
+
+    def generation_index
+      @generation_index
     end
 
     private
@@ -47,6 +62,8 @@ class AI
     end
 
     def setup_new_generation
+      @history << @generation.highest_score
+
       @generation.announce_winners(@generation_index)
       @generation.save_winners
 

@@ -6,7 +6,7 @@ class AI
     attr_accessor :run, :network
 
     def initialize(config, logger:)
-      @key = config["key"]
+      @key = config[:key]
       @network = NetworkHelper.load_network(@key)
       @run = Run.new(network: @network, key: @key)
       @logger = logger

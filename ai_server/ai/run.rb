@@ -3,8 +3,9 @@ class AI
   class Run
     INITIAL_DEATH_TIMER = 100
 
-    def initialize(network: nil, dimensions: [], key: nil)
+    def initialize(network: nil, dimensions: [], key: nil, age: 0)
       @frame = 0
+      @age = age
       @death_timer = INITIAL_DEATH_TIMER
       @dead = false
       @key = key || Random.srand.to_s # TODO: Stop using srand, it's not a random number generator lol
@@ -16,6 +17,10 @@ class AI
       else
         NetworkHelper.create_network(10240, 20, 20, 6)
       end
+    end
+
+    def age
+      @age
     end
 
     def dead?

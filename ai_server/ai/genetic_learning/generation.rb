@@ -5,7 +5,7 @@ class AI
   class GeneticLearning < Base
     class Generation
       GENERATION_SIZE = 10
-      WINNERS_PER_GEN = 3
+      WINNERS_PER_GEN = 4
 
       attr_reader :runs
 
@@ -17,7 +17,7 @@ class AI
         seed_runs.each do |seed_run|
           break if @runs.length == GENERATION_SIZE
 
-          @runs << Run.new(network: NetworkHelper.mutate_network(seed_run.network))
+          @runs << Run.new(network: NetworkHelper.mutate_network(seed_run.network), age: seed_run.age + 1)
         end
 
         # If there's more capacity, create random networks
@@ -29,10 +29,20 @@ class AI
       def winners
         @winners ||= begin
           sorted_runs = @runs.sort_by do |run|
-            run.score
+            [-run.score, -run.age]
           end
 
-          sorted_runs.reverse.first(WINNERS_PER_GEN)
+          # Only take one winner of each score
+          runs_taken = {}
+
+          sorted_runs.each do |run|
+            break if runs_taken.length == WINNERS_PER_GEN
+            next if runs_taken[run.score]
+
+            runs_taken[run.score] = run
+          end
+
+          runs_taken.values
         end
       end
 
@@ -41,7 +51,7 @@ class AI
 
         @logger.info  "** Generation #{index} winners:"
         winners.each_with_index do |winner, index|
-          @logger.info "** #{index + 1}. #{winner.key} - #{winner.score}"
+          @logger.info "** #{index + 1}. #{winner.key} - #{winner.score} (#{winner.age})"
         end
 
         @logger.info "**"
@@ -56,6 +66,10 @@ class AI
 
       def generation_size
         GENERATION_SIZE
+      end
+
+      def highest_score
+        winners.first.score
       end
     end
   end

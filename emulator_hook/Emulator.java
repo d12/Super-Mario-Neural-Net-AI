@@ -58,6 +58,14 @@ public class Emulator {
     boolean start = result[6] == 1;
     boolean select = result[7] == 1;
 
+    if(left && right){
+      left = false;
+    }
+
+    if(up && down){
+      down = false;
+    }
+
     api.writeGamepad(CONTROLLER, BUTTON_UP, up);
     api.writeGamepad(CONTROLLER, BUTTON_DOWN, down);
     api.writeGamepad(CONTROLLER, BUTTON_LEFT, left);
